@@ -8,6 +8,9 @@ services:
     tty: true
     volumes:
       - ${PWD}:/app
+      - /app/node_modules
+    networks:
+      - default
     command:
       - npm 
       - start 
@@ -15,8 +18,13 @@ services:
     image: mysql:5.7.24
     ports: 
       - 3306:3306
+    volumes: 
+      - ./dump:/docker-entrypoint-initdb.d
+    networks:
+      - default
     environment:
-        MYSQL_PASSWORD: root 
+      MYSQL_DATABASE: myDb
+      MYSQL_ROOT_PASSWORD: root
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     links: 
