@@ -4,7 +4,10 @@ services:
     build:
       context: .
     ports:
-      - 8081:8081
+      - 5000:5000
     tty: true
     volumes:
       - ${PWD}:/app
+    command:
+      - npm 
+      - start 
