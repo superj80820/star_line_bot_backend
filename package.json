@@ -3,17 +3,28 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "gulp develop"
+    "start": "gulp develop",
+    "build": "webpack -w"
   },
   "dependencies": {
+    "babel-core": "^6.26.3",
+    "babel-loader": "^7.1.5",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.9",
     "express": "~4.16.0",
-    "gulp": "^4.0.1",
+    "gulp": "^4.0.2",
     "gulp-nodemon": "^2.4.2",
     "http-errors": "~1.6.2",
     "jade": "~1.11.0",
     "morgan": "~1.9.0",
-    "mysql": "^2.17.1"
+    "mysql": "^2.17.1",
+    "nodeman": "^1.1.2",
+    "webpack-node-externals": "^1.7.2"
+  },
+  "devDependencies": {
+    "webpack": "^4.31.0",
+    "webpack-cli": "^3.3.2"
   }
 }
