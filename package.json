@@ -3,8 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "gulp develop",
-    "build": "webpack -w"
+    "start": "gulp",
+    "build": "webpack --mode production -w"
   },
   "dependencies": {
     "babel-core": "^6.26.3",
@@ -13,6 +13,7 @@
     "babel-preset-env": "^1.7.0",
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.9",
+    "dotenv": "^8.0.0",
     "express": "~4.16.0",
     "gulp": "^4.0.2",
     "gulp-nodemon": "^2.4.2",
@@ -21,7 +22,8 @@
     "morgan": "~1.9.0",
     "mysql": "^2.17.1",
     "nodeman": "^1.1.2",
-    "webpack-node-externals": "^1.7.2"
+    "webpack-node-externals": "^1.7.2",
+    "webpack-stream": "^5.2.1"
   },
   "devDependencies": {
     "webpack": "^4.31.0",
