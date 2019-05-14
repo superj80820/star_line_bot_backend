@@ -1,21 +1,21 @@
 version: "3"
 services:
-  app:
+  app: #app docker command place
     build:
       context: .
     ports:
-      - 5000:5000
-    tty: true
-    volumes:
-      - ${PWD}:/app
-    working_dir: /app
-    networks:
+      - 5000:5000 #localhost 5000port docker5000port connection
+    tty: true #Start virtual terminal
+    volumes: #Store data on the physical host
+      - ${PWD}:/app 
+    working_dir: /app #Designated work folder
+    networks:  #Set up a network group
       - default
     command:
       - npm 
       - start 
-  serveo:
-    image: node:latest 
+  serveo: #serveo docker command place
+    image: node:latest #use image
     volumes: 
       - ${PWD}:/app
     working_dir: /app
@@ -37,7 +37,7 @@ services:
       MYSQL_ROOT_PASSWORD: root
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
-    links: 
+    links: #Connected to the docker virtual machine
       - db
     ports:
       - 8000:80
