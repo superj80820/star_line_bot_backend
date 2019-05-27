@@ -1,6 +1,6 @@
 const expect = require('chai').expect;
-const faceppModule = require('./../../../src/server/modules/facepp');
-const config = require('./../../../src/config/config');
+const faceppModule = require('../../src/server/modules/facepp');
+const config = require('../../src/config/config');
 
 facepp = new faceppModule(config.faceppKey, config.faceppSecret);
 
@@ -49,7 +49,7 @@ describe('FacePlusPlus api test begin', function(){
     //Setup
     res = await facepp.faceSetcreate();
     const faceSetToken = res.data.faceset_token
-    res = await facepp.detect('./test.png');
+    res = await facepp.detect('./test/res/test.png');
     const faceToken = res.data.faces[0].face_token
     res = await facepp.faceSetaddFace(`&faceset_token=${faceSetToken}&face_tokens=${faceToken}`);
     //Test case
@@ -63,7 +63,7 @@ describe('FacePlusPlus api test begin', function(){
     //Setup
     res = await facepp.faceSetcreate();
     const faceSetToken = res.data.faceset_token
-    res = await facepp.detect('./test.png');
+    res = await facepp.detect('./test/res/test.png');
     const faceToken = res.data.faces[0].face_token
     //Test case
     res = await facepp.faceSetaddFace(`&faceset_token=${faceSetToken}&face_tokens=${faceToken}`);
@@ -80,5 +80,43 @@ describe('FacePlusPlus api test begin', function(){
     expect(res.data).to.be.an('object');
     //Teardown
     await facepp.faceSetdelete(`&faceset_token=${res.data.faceset_token}`);
+  });
+  it('detect tset', async () => {
+    //Test case
+    res = await facepp.detect('./test/res/test.png');
+    expect(res.status).to.equal(200)
+    expect(res.data).to.be.an('object');
+  });
+  it('search use face_token tset', async () => {
+    //Setup
+    res = await facepp.faceSetcreate();
+    const faceSetToken = res.data.faceset_token
+    res = await facepp.detect('./test/res/test.png');
+    const faceToken = res.data.faces[0].face_token
+    res = await facepp.faceSetaddFace(`&faceset_token=${faceSetToken}&face_tokens=${faceToken}`);
+    res = await facepp.detect('./test/res/search.png');
+    const faceTokenSearch = res.data.faces[0].face_token
+    //Test case
+    res = await facepp.search(`&faceset_token=${faceSetToken}&face_token=${faceTokenSearch}`);
+    expect(res.status).to.equal(200)
+    expect(res.data).to.be.an('object');
+    //Teardown
+    await facepp.faceSetremoveFace(`&faceset_token=${faceSetToken}&face_tokens=${faceToken},${faceTokenSearch}`);
+    await facepp.faceSetdelete(`&faceset_token=${faceSetToken}`);
+  });
+  it('search use image_file tset', async () => {
+    //Setup
+    res = await facepp.faceSetcreate();
+    const faceSetToken = res.data.faceset_token
+    res = await facepp.detect('./test/res/test.png');
+    const faceToken = res.data.faces[0].face_token
+    res = await facepp.faceSetaddFace(`&faceset_token=${faceSetToken}&face_tokens=${faceToken}`);
+    //Test case
+    res = await facepp.search(`&faceset_token=${faceSetToken}`, './test/res/search.png');
+    expect(res.status).to.equal(200)
+    expect(res.data).to.be.an('object');
+    //Teardown
+    await facepp.faceSetremoveFace(`&faceset_token=${faceSetToken}&face_tokens=${faceToken}`);
+    await facepp.faceSetdelete(`&faceset_token=${faceSetToken}`);
   });
 });

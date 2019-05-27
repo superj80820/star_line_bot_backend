@@ -1,2 +1,2 @@
+--recursive
 --require chai
---reporter spec
