@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "start": "gulp",
-    "build": "webpack --mode production -w"
+    "build": "webpack --mode production -w",
+    "test": "mocha -w"
   },
   "dependencies": {
     "@line/bot-sdk": "^6.7.0",
