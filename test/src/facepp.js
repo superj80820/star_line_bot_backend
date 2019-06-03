@@ -1,6 +1,7 @@
 const expect = require('chai').expect;
 const faceppModule = require('../../src/server/modules/facepp');
 const config = require('../../src/config/config');
+const fs = require('fs');
 
 facepp = new faceppModule(config.faceppKey, config.faceppSecret);
 
@@ -14,61 +15,61 @@ describe('FacePlusPlus api test begin', function(){
   it('faceSetgetGaceSets tset', async () => {
     //Test case
     res = await facepp.faceSetgetFaceSets();
-    expect(res.status).to.equal(200)
-    expect(res.data).to.be.an('object');
+    expect(res.statusCode).to.equal(200)
+    expect(JSON.parse(res.body)).to.be.an('object');
   });
   it('faceSetgetDetail tset', async () => {
     //Setup
     res = await facepp.faceSetcreate();
     //Test case
-    res = await facepp.faceSetgetDetail(`&faceset_token=${res.data.faceset_token}`);
-    expect(res.status).to.equal(200)
-    expect(res.data).to.be.an('object');
+    res = await facepp.faceSetgetDetail(`&faceset_token=${JSON.parse(res.body).faceset_token}`);
+    expect(res.statusCode).to.equal(200)
+    expect(JSON.parse(res.body)).to.be.an('object');
   });
   it('faceSetdelete tset', async () => {
     //Setup
     res = await facepp.faceSetcreate();
     //Test case
-    res = await facepp.faceSetdelete(`&faceset_token=${res.data.faceset_token}&tags=hello`);
-    expect(res.status).to.equal(200);
-    expect(res.data).to.be.an('object');
+    res = await facepp.faceSetdelete(`&faceset_token=${JSON.parse(res.body).faceset_token}&tags=hello`);
+    expect(res.statusCode).to.equal(200);
+    expect(JSON.parse(res.body)).to.be.an('object');
   });
   it('faceSetupdate tset', async () => {
     //Setup
     res = await facepp.faceSetcreate();
     //Test case
-    res = await facepp.faceSetupdate(`&faceset_token=${res.data.faceset_token}&tags=hello`);
-    expect(res.status).to.equal(200)
-    expect(res.data).to.be.an('object');
-    res = await facepp.faceSetgetDetail(`&faceset_token=${res.data.faceset_token}`);
-    expect(res.data.tags).to.equal('hello')
+    res = await facepp.faceSetupdate(`&faceset_token=${JSON.parse(res.body).faceset_token}&tags=hello`);
+    expect(res.statusCode).to.equal(200)
+    expect(JSON.parse(res.body)).to.be.an('object');
+    res = await facepp.faceSetgetDetail(`&faceset_token=${JSON.parse(res.body).faceset_token}`);
+    expect(JSON.parse(res.body).tags).to.equal('hello')
     //Teardown
-    await facepp.faceSetdelete(`&faceset_token=${res.data.faceset_token}`);
+    await facepp.faceSetdelete(`&faceset_token=${JSON.parse(res.body).faceset_token}`);
   });
   it('faceSetremoveFace tset', async () => {
     //Setup
     res = await facepp.faceSetcreate();
-    const faceSetToken = res.data.faceset_token
+    const faceSetToken = JSON.parse(res.body).faceset_token
     res = await facepp.detect('./test/res/test.png');
-    const faceToken = res.data.faces[0].face_token
+    const faceToken = JSON.parse(res.body).faces[0].face_token
     res = await facepp.faceSetaddFace(`&faceset_token=${faceSetToken}&face_tokens=${faceToken}`);
     //Test case
     res = await facepp.faceSetremoveFace(`&faceset_token=${faceSetToken}&face_tokens=${faceToken}`);
-    expect(res.status).to.equal(200)
-    expect(res.data).to.be.an('object');
+    expect(res.statusCode).to.equal(200)
+    expect(JSON.parse(res.body)).to.be.an('object');
     //Teardown
     await facepp.faceSetdelete(`&faceset_token=${faceSetToken}`);
   });
   it('faceSetaddFace tset', async () => {
     //Setup
     res = await facepp.faceSetcreate();
-    const faceSetToken = res.data.faceset_token
+    const faceSetToken = JSON.parse(res.body).faceset_token
     res = await facepp.detect('./test/res/test.png');
-    const faceToken = res.data.faces[0].face_token
+    const faceToken = JSON.parse(res.body).faces[0].face_token
     //Test case
     res = await facepp.faceSetaddFace(`&faceset_token=${faceSetToken}&face_tokens=${faceToken}`);
-    expect(res.status).to.equal(200)
-    expect(res.data).to.be.an('object');
+    expect(res.statusCode).to.equal(200)
+    expect(JSON.parse(res.body)).to.be.an('object');
     //Teardown
     await facepp.faceSetremoveFace(`&faceset_token=${faceSetToken}&face_tokens=${faceToken}`);
     await facepp.faceSetdelete(`&faceset_token=${faceSetToken}`);
@@ -76,30 +77,54 @@ describe('FacePlusPlus api test begin', function(){
   it('faceSetcreate tset', async () => {
     //Test case
     res = await facepp.faceSetcreate();
-    expect(res.status).to.equal(200)
-    expect(res.data).to.be.an('object');
+    expect(res.statusCode).to.equal(200)
+    expect(JSON.parse(res.body)).to.be.an('object');
     //Teardown
-    await facepp.faceSetdelete(`&faceset_token=${res.data.faceset_token}`);
+    await facepp.faceSetdelete(`&faceset_token=${JSON.parse(res.body).faceset_token}`);
   });
-  it('detect tset', async () => {
+  it('detect buffer tset', async () => {
+    //Setup
+    const image = fs.readFileSync('./test/res/search.png');
+    //Test case
+    res = await facepp.detect(image);
+    expect(res.statusCode).to.equal(200)
+    expect(JSON.parse(res.body)).to.be.an('object');
+  });
+  it('detect image_file tset', async () => {
     //Test case
     res = await facepp.detect('./test/res/test.png');
-    expect(res.status).to.equal(200)
-    expect(res.data).to.be.an('object');
+    expect(res.statusCode).to.equal(200)
+    expect(JSON.parse(res.body)).to.be.an('object');
+  });
+  it('search use buffer tset', async () => {
+    //Setup
+    res = await facepp.faceSetcreate();
+    const faceSetToken = JSON.parse(res.body).faceset_token
+    res = await facepp.detect('./test/res/test.png');
+    const faceToken = JSON.parse(res.body).faces[0].face_token
+    res = await facepp.faceSetaddFace(`&faceset_token=${faceSetToken}&face_tokens=${faceToken}`);
+    const image = fs.readFileSync('./test/res/search.png');
+    //Test case
+    res = await facepp.search(`&faceset_token=${faceSetToken}`, image);
+    expect(res.statusCode).to.equal(200)
+    expect(JSON.parse(res.body)).to.be.an('object');
+    //Teardown
+    await facepp.faceSetremoveFace(`&faceset_token=${faceSetToken}&face_tokens=${faceToken}`);
+    await facepp.faceSetdelete(`&faceset_token=${faceSetToken}`);
   });
   it('search use face_token tset', async () => {
     //Setup
     res = await facepp.faceSetcreate();
-    const faceSetToken = res.data.faceset_token
+    const faceSetToken = JSON.parse(res.body).faceset_token
     res = await facepp.detect('./test/res/test.png');
-    const faceToken = res.data.faces[0].face_token
+    const faceToken = JSON.parse(res.body).faces[0].face_token
     res = await facepp.faceSetaddFace(`&faceset_token=${faceSetToken}&face_tokens=${faceToken}`);
     res = await facepp.detect('./test/res/search.png');
-    const faceTokenSearch = res.data.faces[0].face_token
+    const faceTokenSearch = JSON.parse(res.body).faces[0].face_token
     //Test case
     res = await facepp.search(`&faceset_token=${faceSetToken}&face_token=${faceTokenSearch}`);
-    expect(res.status).to.equal(200)
-    expect(res.data).to.be.an('object');
+    expect(res.statusCode).to.equal(200)
+    expect(JSON.parse(res.body)).to.be.an('object');
     //Teardown
     await facepp.faceSetremoveFace(`&faceset_token=${faceSetToken}&face_tokens=${faceToken},${faceTokenSearch}`);
     await facepp.faceSetdelete(`&faceset_token=${faceSetToken}`);
@@ -107,14 +132,14 @@ describe('FacePlusPlus api test begin', function(){
   it('search use image_file tset', async () => {
     //Setup
     res = await facepp.faceSetcreate();
-    const faceSetToken = res.data.faceset_token
+    const faceSetToken = JSON.parse(res.body).faceset_token
     res = await facepp.detect('./test/res/test.png');
-    const faceToken = res.data.faces[0].face_token
+    const faceToken = JSON.parse(res.body).faces[0].face_token
     res = await facepp.faceSetaddFace(`&faceset_token=${faceSetToken}&face_tokens=${faceToken}`);
     //Test case
     res = await facepp.search(`&faceset_token=${faceSetToken}`, './test/res/search.png');
-    expect(res.status).to.equal(200)
-    expect(res.data).to.be.an('object');
+    expect(res.statusCode).to.equal(200)
+    expect(JSON.parse(res.body)).to.be.an('object');
     //Teardown
     await facepp.faceSetremoveFace(`&faceset_token=${faceSetToken}&face_tokens=${faceToken}`);
     await facepp.faceSetdelete(`&faceset_token=${faceSetToken}`);

@@ -1,5 +1,5 @@
-import config from './config/config';
-import app from './config/express';
+const config = require('./config/config');
+const app = require('./config/express');
 
 if (!module.parent) {
   // listen on port config.port
@@ -7,5 +7,4 @@ if (!module.parent) {
     console.log(`Hi develop! Server started on  port http://127.0.0.1:${config.port} (${config.env})`);
   });
 }
-
-export default app
+module.exports = app;

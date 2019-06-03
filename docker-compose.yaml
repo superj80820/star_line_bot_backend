@@ -5,11 +5,12 @@ services:
       context: .
     ports:
       - 5000:5000
+      - 8080:8080
     tty: true
     volumes:
       - ${PWD}:/app
     working_dir: /app
-    networks:
+    networks: 
       - default
     command:
       - npm 
@@ -19,18 +20,18 @@ services:
     volumes: 
       - ${PWD}:/app
     working_dir: /app
+    networks: 
+      - default
     command:
       - bash
       - script/serveo.sh
-    networks:
-      - default
   db:
     image: mysql:5.7.24
     ports: 
       - 3306:3306
     volumes: 
       - ./dump:/docker-entrypoint-initdb.d
-    networks:
+    networks: 
       - default
     environment:
       MYSQL_DATABASE: myDb
@@ -43,3 +44,15 @@ services:
       - 8000:80
     environment:
       PMA_HOST: db
+  swagger-ui:
+      image: swaggerapi/swagger-ui
+      ports:
+        - 8070:8080
+      volumes:
+        - ${PWD}/swagger:/swagger
+      environment:
+        SWAGGER_JSON: /swagger/openapi.yaml
+  swagger-editor:
+      image: swaggerapi/swagger-editor
+      ports:
+        - 8090:8080

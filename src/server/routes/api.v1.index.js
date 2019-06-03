@@ -1,5 +1,5 @@
-import express from 'express';
-import config from './../../config/config';
+const express = require('express');
+const config = require('./../../config/config');
 
 const router = express.Router();
 
@@ -7,5 +7,4 @@ const router = express.Router();
 router.get('/', (req, res) => {
   res.send(`Hi develop! localhost:${config.port}/api`);
 });
-
-export default router;
+module.exports = router;

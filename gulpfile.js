@@ -4,7 +4,7 @@ const webpack = require('webpack-stream')
 
 // legacyWatch is for docker. If not set true. nodemon in docker will not auto.
 gulp.task('start', function(){
-  nodemon({script: 'dist/index.bundle.js', ext: 'js hjs json', legacyWatch: true });
+  nodemon({script: 'src/index.js', ext: 'js hjs json', legacyWatch: true });
 })
 gulp.task('watch', function() { 
   gulp.watch(['./src/**/*'],
@@ -15,6 +15,10 @@ gulp.task('watch', function() {
 gulp.task('webpack', function() {
   return gulp.src('src/index.js')
     .pipe(webpack(require('./webpack.config.js')))
+    .on('error', function(err) {
+      console.log(err.toString());
+      this.emit('end');
+    })
     .pipe(gulp.dest('dist'));
 });
 gulp.task('default', gulp.parallel('webpack', 'watch', 'start', function() {
