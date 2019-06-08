@@ -1,18 +1,24 @@
 pipeline:
-  # build:
-  #   image: node:8.11.3-alpine
-  #   secrets: [FACEPP_KEY, FACEPP_SECRET]
-  #   commands:
-  #     - npm install
-      # - npm test
-  ssh-deploy:
+  build:
+    image: node:8.11.3-alpine
+    secrets: [ENV]
+    commands:
+      - sh script/build.sh $ENV
+  ssh-deploy-stg:
     image: appleboy/drone-ssh
     pull: true # always pull the latest version of the `drone-ssh` plugin
-    secrets: [ssh_username, ssh_key]
-    host: 172.17.0.1
+    secrets: [ssh_username, ssh_key, ENV]
+    envs: [ENV]
+    host:
+      from_secret: HOST
     port: 22
     command_timeout: 2m
     script:
-      - bash ~/git/star_line_bot_backend/script/deploy.sh
+      - mkdir tmp
+      - cd tmp
+      - sudo rm -r star_line_bot_backend
+      - git clone https://github.com/superj80820/star_line_bot_backend.git
+      - cd star_line_bot_backend
+      - bash ./script/deploy.sh docker-compose.stg.yaml $ENV
     when:
-      event: [push, tag, deployment]
+      event: [push]
