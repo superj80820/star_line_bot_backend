@@ -1,42 +1,22 @@
 {
   "name": "star_line_bot_backend",
-  "version": "0.0.0",
-  "private": true,
+  "version": "1.0.0",
+  "description": "## Ref: * db https://gist.github.com/akosveres/b7f9173ccb7b00a8db67e5149f410bb5 https://gist.github.com/jcavat/2ed51c6371b9b488d6a940ba1049189b https://ithelp.ithome.com.tw/articles/10200754?sc=pt [If db can't connect](https://stackoverflow.com/questions/45399941/node-js-connect-to-mysql-docker-container-econnrefused)",
+  "main": "app.js",
   "scripts": {
-    "start": "gulp",
-    "build": "webpack --mode production -w",
-    "test": "mocha -w"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/superj80820/star_line_bot_backend.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/superj80820/star_line_bot_backend/issues"
+  },
+  "homepage": "https://github.com/superj80820/star_line_bot_backend#readme",
   "dependencies": {
-    "@line/bot-sdk": "^6.7.0",
-    "axios": "^0.18.0",
-    "babel-core": "^6.26.3",
-    "babel-loader": "^7.1.5",
-    "babel-plugin-transform-object-rest-spread": "^6.26.0",
-    "babel-preset-env": "^1.7.0",
-    "chai": "^4.2.0",
-    "cookie-parser": "~1.4.3",
-    "debug": "~2.6.9",
-    "dotenv": "^8.0.0",
-    "express": "~4.16.0",
-    "form-data": "^2.3.3",
-    "fs": "0.0.1-security",
-    "gulp": "^4.0.2",
-    "gulp-nodemon": "^2.4.2",
-    "http-errors": "~1.6.2",
-    "https": "^1.0.0",
-    "jade": "~1.11.0",
-    "mocha": "^6.1.4",
-    "morgan": "~1.9.0",
-    "mysql": "^2.17.1",
-    "nodeman": "^1.1.2",
-    "request": "^2.88.0",
-    "requests": "^0.2.2",
-    "webpack-node-externals": "^1.7.2",
-    "webpack-stream": "^5.2.1"
-  },
-  "devDependencies": {
-    "webpack": "^4.31.0",
-    "webpack-cli": "^3.3.2"
+    "express": "^4.17.1"
   }
 }

@@ -1,45 +1,24 @@
 version: "3"
 services:
-  app: #app docker command place
-    build:
-      context: .
-    ports:
-      - 5000:5000 #localhost 5000port docker5000port connection
-    tty: true #Start virtual terminal
-    volumes: #Store data on the physical host
-      - ${PWD}:/app 
-    working_dir: /app #Designated work folder
-    networks:  #Set up a network group
-      - default
-    command:
-      - npm 
-      - start 
-  serveo: #serveo docker command place
-    image: node:latest #use image
-    volumes: 
-      - ${PWD}:/app
+  app:
+    image: node:10.16
+    volumes:
+      - ./:/app
+    env_file:
+      - .env
     working_dir: /app
-    command:
-      - bash
-      - script/serveo.sh
-    networks:
-      - default
-  db:
-    image: mysql:5.7.24
-    ports: 
-      - 3306:3306
-    volumes: 
-      - ./dump:/docker-entrypoint-initdb.d
-    networks:
-      - default
-    environment:
-      MYSQL_DATABASE: myDb
-      MYSQL_ROOT_PASSWORD: root
-  phpmyadmin:
-    image: phpmyadmin/phpmyadmin
-    links: #Connected to the docker virtual machine
-      - db
     ports:
-      - 8000:80
-    environment:
-      PMA_HOST: db
+      - '3000:3000'
+    depends_on:
+      - mongo
+    command:
+      - npm
+      - run
+      - dev
+
+  mongo:
+    image: mongo
+    ports:
+      - '27017:27017'
+    volumes:
+      - /data/db
