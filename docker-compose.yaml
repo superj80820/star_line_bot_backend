@@ -7,8 +7,9 @@ services:
     env_file:
       - .env
     working_dir: /app
+    user: ${CURRENT_UID}
     ports:
-      - '3000:3000'
+      - 8080:8080
     depends_on:
       - mongo
     command:

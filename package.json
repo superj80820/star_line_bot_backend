@@ -4,6 +4,8 @@
   "description": "## Ref: * db https://gist.github.com/akosveres/b7f9173ccb7b00a8db67e5149f410bb5 https://gist.github.com/jcavat/2ed51c6371b9b488d6a940ba1049189b https://ithelp.ithome.com.tw/articles/10200754?sc=pt [If db can't connect](https://stackoverflow.com/questions/45399941/node-js-connect-to-mysql-docker-container-econnrefused)",
   "main": "app.js",
   "scripts": {
+    "start": "node ./app.js",
+    "dev": "nodemon ./app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -17,6 +19,8 @@
   },
   "homepage": "https://github.com/superj80820/star_line_bot_backend#readme",
   "dependencies": {
-    "express": "^4.17.1"
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "nodemon": "^1.19.3"
   }
 }
