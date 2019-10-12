@@ -1,0 +1,26 @@
+{
+    "development": {
+        "username": "django",
+        "password": "django",
+        "operatorsAliases": false,
+        "database": "djangodocker",
+        "host": "mysql",
+        "dialect": "mysql"
+    },
+    "test": {
+        "username": "django",
+        "password": "django",
+        "operatorsAliases": false,
+        "database": "djangodocker",
+        "host": "mysql",
+        "dialect": "mysql"
+    },
+    "production": {
+        "username": "django",
+        "password": "django",
+        "operatorsAliases": false,
+        "database": "djangodocker",
+        "host": "mysql",
+        "dialect": "mysql"
+    }
+}
