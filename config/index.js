@@ -1,4 +1,5 @@
 module.exports = {
+    secret: process.env.NODE_ENV === 'production' ? process.env.SECRET : 'secret',
     line:{
       lineChannelAccessToken: process.env.LINE_CHANNEL_ACCESS_TOKEN,
       lineChannelSecret: process.env.LINE_CHANNEL_SECRET,

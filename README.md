@@ -1,5 +1,33 @@
 # star_line_bot_backend
 
+## DB
+
+### Create model
+
+```
+docker-compose run app sequelize-cli model:generate --name <model name> --attributes <attribute list>
+```
+
+e.g.
+
+```
+docker-compose run app sequelize-cli model:generate --name User --attributes firstName:string,lastName:string,email:string
+```
+
+### Migrate
+
+Running
+
+```
+docker-compose run app npm run db:migrate
+```
+
+Undo
+
+```
+docker-compose run app sequelize-cli db:migrate:undo:all --to XXXXXXXXXXXXXX-create-xxxx.js
+```
+
 ## Ref:
 * db
 https://gist.github.com/akosveres/b7f9173ccb7b00a8db67e5149f410bb5
@@ -13,7 +41,9 @@ https://ithelp.ithome.com.tw/articles/10193307
 * docker
 https://github.com/b00giZm/docker-compose-nodejs-examples/blob/master/03-express-gulp-watch/Dockerfile
 
-## temp
+---
+
+# temp
 
 使用目前使用者進入docker的方法 [Ref](https://medium.com/redbubble/running-a-docker-container-as-a-non-root-user-7d2e00f8ee15)
 

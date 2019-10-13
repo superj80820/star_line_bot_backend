@@ -1,15 +1,9 @@
 const router = require('express').Router();
+const faceFaceController = require('../../../controllers').faceFaces
+const authController = require('../../../controllers').auth
 
-router.get('/', function(_, res){
-    res.send('jiji')
-})
-
-router.post('/', function(req, res){
-    res.send('jijiasdf')
-})
-
-router.delete('/', function(_, res){
-    res.send('jiji')
-})
+router.get('/', authController.required, faceFaceController.listAll)
+router.post('/', faceFaceController.create)
+router.delete('/:id', faceFaceController.destroy)
 
 module.exports = router;
