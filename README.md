@@ -80,3 +80,4 @@ docker-compose run app pipenv run python manage.py createsuperuser
 ## Ref
 
 * [Docker mysql](https://stackoverflow.com/questions/46004648/how-to-setup-mysql-with-utf-8-using-docker-compose)
+* [externalAPI folder designing reference](https://softwareengineering.stackexchange.com/questions/293288/where-should-i-put-an-api-request-in-mvc)

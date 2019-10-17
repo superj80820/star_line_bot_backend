@@ -2,14 +2,18 @@ const faceInfo = require('../db/models').faceInfo;
 
 module.exports = {
     create(req, res) {
-        return faceInfo
-        .create({
-            name: req.body.name,
-            romanization: req.body.romanization,
-            detail: req.body.detail,
+        return imgurObj.upload(req.file.path)
+        .then(data => {
+            return faceInfo
+            .create({
+                name: req.body.name,
+                romanization: req.body.romanization,
+                detail: req.body.detail,
+                preview: JSON.parse(data.body).data.link,
+            })
         })
         .then(faceInfo => res.status(200).json(faceInfo))
-        .catch(error => res.send(error))
+        .catch(error => res.status(400).json(error))
     },
     listAll (req, res) {
         return faceInfo
@@ -39,14 +43,27 @@ module.exports = {
             if(!faceInfo) {
                 return res.status(404);
             }
-            return faceInfo
+            return Promise.all([imgurObj.upload(req.file.path), Promise.resolve(faceInfo)])
+            .then(values => {
+                return {
+                    preview: JSON.parse(values[0].body).data.link,
+                    faceInfo: values[1]
+                }
+            })
+        })
+        .then(data => {
+            return data.faceInfo
             .update({
                 name: req.body.name || faceInfo.name,
                 romanization: req.body.romanization || faceInfo.romanization,
                 detail: req.body.detail || faceInfo.detail,
+                preview: data.preview || faceInfo.preview,
             })
-            .then(() => res.status(200).json(faceInfo))
-            .catch((error) => res.status(500).json(error));
+        })
+        .then((faceInfo) => res.status(200).json(faceInfo))
+        .catch((error) => {
+            console.log(error)
+            res.status(500).json(error)
         });
     },
     destroy (req, res) {

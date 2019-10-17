@@ -6,7 +6,8 @@ module.exports = {
     },
     facepp: {
       faceppKey: process.env.FACEPP_KEY,
-      faceppKey: process.env.FACEPP_SECRET,
+      faceppSecret: process.env.FACEPP_SECRET,
+      faceppFaceset: process.env.FACEPP_FACESET,
     },
     imgur: {
       clientId: process.env.IMGUR_CLIENT_ID,
