@@ -1,17 +1,11 @@
 const express = require('express')
-const bodyParser = require('body-parser')
 const mongoose = require('mongoose');
 const swaggerUi = require('swagger-ui-express');
 const swaggerJSDoc = require('swagger-jsdoc');
-const cors = require('cors');
 
 const isProduction = process.env.NODE_ENV === 'production';
 
 const app = express();
-
-app.use(cors())
-
-app.use(bodyParser.json())
 
 if(isProduction){
   mongoose.connect(process.env.MONGODB_URI);

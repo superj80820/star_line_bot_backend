@@ -3,7 +3,7 @@ const facepp = require('../externalAPI/models/facepp');
 const imgur = require('../externalAPI/models/imgur');
 const config = require('../config');
 
-faceppObj = new facepp(config.facepp.faceppKey, config.facepp.faceppSecret);
+faceppObj = new facepp(config.facepp.faceppKey, config.facepp.faceppSecret, config.facepp.faceppFaceset);
 imgurObj = new imgur(config.imgur.clientAccessToken);
 
 module.exports = {

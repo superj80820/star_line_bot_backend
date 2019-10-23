@@ -1,9 +1,10 @@
 const request = require('request-promise');
 const fs = require('fs');
 
-function facepp (faceppKey, faceppSecret) {
+function facepp (faceppKey, faceppSecret, faceppFaceset) {
     this.faceppKey = faceppKey;
     this.faceppSecret = faceppSecret;
+    this.faceppFaceset = faceppFaceset
 }
 facepp.prototype.detect = function(imagePath){
     const image = fs.createReadStream(imagePath);
@@ -17,6 +18,31 @@ facepp.prototype.detect = function(imagePath){
         qs: {
             api_key: this.faceppKey,
             api_secret: this.faceppSecret,
+        },
+        formData: {
+            image_file: image,
+        },
+    })
+    .then(res => {
+        return Promise.resolve(res)
+    })
+    .catch(err => {
+        return Promise.reject(err)
+    })
+}
+facepp.prototype.search = function(imagePath){
+    const image = fs.createReadStream(imagePath);
+    return request({
+        resolveWithFullResponse: true,
+        method: 'POST',
+        url: 'https://api-cn.faceplusplus.com/facepp/v3/search',
+        headers: {
+            'Content-type': 'multipart/form-data'
+        },
+        qs: {
+            api_key: this.faceppKey,
+            api_secret: this.faceppSecret,
+            faceset_token: this.faceppFaceset,
         },
         formData: {
             image_file: image,

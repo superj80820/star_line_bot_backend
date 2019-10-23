@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/superj80820/star_line_bot_backend#readme",
   "dependencies": {
+    "@line/bot-sdk": "^6.8.2",
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
     "express": "^4.17.1",
