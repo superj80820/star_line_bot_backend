@@ -1,5 +1,7 @@
 # star_line_bot_backend
 
+[Line好友連結](https://line.me/R/ti/p/%40bxc5238x)
+
 ## 資料庫
 
 ### 創建Model
